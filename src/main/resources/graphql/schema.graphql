@@ -1,0 +1,42 @@
+
+type Room {
+    roomId: ID!
+    roomName: String!
+    reservations: [Reservation]
+}
+
+type Reservation {
+    reservationId: ID!
+    dateFrom: String!
+    dateTo: String!
+}
+
+type User {
+    userId: ID!
+    userType: String!
+}
+
+input ReservationInput {
+    dateFrom: String!
+    dateTo: String!
+}
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Mutation {
+    addRoom(roomName: String): Room
+    removeRoom(roomName: String): Boolean
+    changeRoomName(oldRoomName: String, newRoomName: String): Boolean
+    addRoomReservation(roomName: String, reservation: ReservationInput): Room
+    removeRoomReservation(roomName: String, reservationId: Int): Room
+}
+
+type Query {
+    getRoom(roomName: String!): Room
+    getFreeRoomCount(from: String, to: String): Int
+    getBookedRoomCount(from: String, to: String): Int
+    getFreeRooms(from: String, to: String): [Room]
+}
